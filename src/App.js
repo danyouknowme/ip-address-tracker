@@ -66,7 +66,7 @@ const App = () => {
               <span className="line"></span>
               <div>
                 <span className="topic">TIMEZONE</span>
-                <span className="value">{data.timezone}</span>
+                <span className="value">{"UTC " + data.timezone}</span>
               </div>
               <span className="line"></span>
               <div>

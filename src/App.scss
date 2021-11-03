@@ -42,7 +42,7 @@
             border: none;
             border-radius: 10px;
             padding-left: 20px;
-            font-size: 18px;
+            font-size: 16px;
           }
 
           .submit {
@@ -114,4 +114,50 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 375px) {
+  .App {
+    .wrapper {
+      .title {
+        .bg {
+
+          .inputIp {
+            margin-right: 25px;
+            width: 80%;
+
+            input {
+              font-size: 14px;
+            }
+          }
+          .content {
+            flex-direction: column;
+            width: 90%;
+            height: 35%;
+
+            div {
+              width: 80%;
+              height: max-content;
+              align-items: center;
+
+              .topic {
+                margin: 0;
+              }
+
+              .value {
+                margin: 0;
+                text-align: center;
+              }
+
+            }
+
+            .line {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
 }
