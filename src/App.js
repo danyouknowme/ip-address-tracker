@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import axios from "axios";
 import { useState } from "react";
+import IconArrow from "./images/icon-arrow.svg";
 import "./App.scss";
 
 const App = () => {
@@ -45,9 +46,9 @@ const App = () => {
               longitude: response2.data.lon,
             });
           })
-          .catch((error) => console.log(error));
+          .catch((error) => alert("Please enter a valid IP address."));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert("Please enter a valid IP address."));
   };
 
   const ChangeView = ({ center, zoom }) => {
@@ -69,7 +70,7 @@ const App = () => {
                 onChange={(e) => setIpAddress(e.target.value)}
               />
               <div className="submit" onClick={generateData}>
-                {">"}
+                <img src={IconArrow} alt="icon-arrow" />
               </div>
             </form>
             <div className="content">
@@ -116,7 +117,7 @@ const App = () => {
             />
             <Marker position={[position.latitude, position.longitude]}>
               <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
+                <strong>{data.isp}</strong> <br /> {data.ip}
               </Popup>
             </Marker>
           </MapContainer>
