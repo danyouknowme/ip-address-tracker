@@ -6,12 +6,18 @@ const App = () => {
     <div className="App">
       <div className="wrapper">
         <div className="title">
-          <div className="bg"></div>
+          <div className="bg">
+            <span>IP Address Tracker</span>
+            <form className="inputIp">
+              <input type="text" placeholder="Search for any IP address or domain"/>
+              <div className="submit">{">"}</div>
+            </form>
+          </div>
         </div>
         <div className="map">
           <MapContainer
             center={[51.505, -0.09]}
-            zoom={13}
+            zoom={20}
           >
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
