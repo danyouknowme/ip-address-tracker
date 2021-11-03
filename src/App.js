@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import axios from "axios";
 import { useState } from "react";
 import "./App.scss";
@@ -14,8 +14,12 @@ const App = () => {
     timezone: "-05:00",
     isp: "SpaceX Starlink",
   });
-  const apiKey = process.env.REACT_APP_IP_API_KEY;
+  const [position, setPosition] = useState({
+    latitude: 34.0536,
+    longitude: -118.084,
+  });
   const [ipAddress, setIpAddress] = useState("");
+  const apiKey = process.env.REACT_APP_IP_API_KEY;
 
   const generateData = async () => {
     axios
@@ -23,18 +27,33 @@ const App = () => {
         `https://geo.ipify.org/api/v2/country?apiKey=${apiKey}&ipAddress=${ipAddress}`
       )
       .then((response) => {
-        setData({
-          ip: response.data.ip,
-          location: {
-            region: response.data.location.region,
-            country: response.data.location.country,
-            postcode: response.data.as.asn,
-          },
-          timezone: response.data.location.timezone,
-          isp: response.data.isp,
-        });
+        axios
+          .get(`http://ip-api.com/json/${ipAddress}?fields=zip,lat,lon`)
+          .then((response2) => {
+            setData({
+              ip: response.data.ip,
+              location: {
+                region: response.data.location.region,
+                country: response.data.location.country,
+                postcode: response2.data.zip,
+              },
+              timezone: response.data.location.timezone,
+              isp: response.data.isp,
+            });
+            setPosition({
+              latitude: response2.data.lat,
+              longitude: response2.data.lon,
+            });
+          })
+          .catch((error) => console.log(error));
       })
       .catch((err) => console.log(err));
+  };
+
+  const ChangeView = ({ center, zoom }) => {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
   };
 
   return (
@@ -61,7 +80,13 @@ const App = () => {
               <span className="line"></span>
               <div>
                 <span className="topic">LOCATION</span>
-                <span className="value">{data.location.region + ", " + data.location.country + " " + data.location.postcode}</span>
+                <span className="value">
+                  {data.location.region +
+                    ", " +
+                    data.location.country +
+                    " " +
+                    data.location.postcode}
+                </span>
               </div>
               <span className="line"></span>
               <div>
@@ -77,12 +102,19 @@ const App = () => {
           </div>
         </div>
         <div className="map">
-          <MapContainer center={[51.505, -0.09]} zoom={20}>
+          <MapContainer
+            center={[position.latitude, position.longitude]}
+            zoom={14}
+          >
+            <ChangeView
+              center={[position.latitude, position.longitude]}
+              zoom={14}
+            />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[51.505, -0.09]}>
+            <Marker position={[position.latitude, position.longitude]}>
               <Popup>
                 A pretty CSS3 popup. <br /> Easily customizable.
               </Popup>
