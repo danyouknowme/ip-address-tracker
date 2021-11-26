@@ -20,7 +20,7 @@ const App = () => {
     longitude: -118.084,
   });
   const [ipAddress, setIpAddress] = useState("");
-  const apiKey = process.env.REACT_APP_IP_API_KEY;
+  const apiKey = "at_6wA1cNgkB6mgbhC7dtddmKNvJymT4";
 
   const generateData = async () => {
     axios
