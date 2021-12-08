@@ -20,12 +20,11 @@ const App = () => {
     longitude: -118.084,
   });
   const [ipAddress, setIpAddress] = useState("");
-  const apiKey = "at_6wA1cNgkB6mgbhC7dtddmKNvJymT4";
 
   const generateData = async () => {
     axios
       .get(
-        `https://geo.ipify.org/api/v2/country?apiKey=${apiKey}&ipAddress=${ipAddress}`
+        `https://geo.ipify.org/api/v2/country?apiKey=${process.env.REACT_APP_IP_API_KEY}&ipAddress=${ipAddress}`
       )
       .then((response) => {
         axios
